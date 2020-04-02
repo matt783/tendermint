@@ -155,7 +155,7 @@ func (store *Store) AddNewEvidence(evidence types.Evidence, priority int64) bool
 		return false
 	}
 
-	ei = Info{
+	ei := Info{
 		Committed: false,
 		Priority:  priority,
 		Evidence:  evidence,
