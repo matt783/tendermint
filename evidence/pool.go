@@ -97,11 +97,13 @@ func (evpool *Pool) Update(block *types.Block, state sm.State) {
 // AddEvidence checks the evidence is valid and adds it to the pool.
 func (evpool *Pool) AddEvidence(evidence types.Evidence) (err error) {
 
-	// TODO: check if we already have evidence for this
-	// validator at this height so we dont get spammed
+	// check if evidence is already stored
+	if evpool.store.IsStored(evidence) {
+		return ErrEvidenceAlreadyStored{evidence}
+	}
 
 	if err := sm.VerifyEvidence(evpool.stateDB, evpool.State(), evidence); err != nil {
-		return err
+		return ErrInvalidEvidence{evidence, err}
 	}
 
 	// fetch the validator and return its voting power as its priority

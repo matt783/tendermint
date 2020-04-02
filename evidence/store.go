@@ -140,12 +140,18 @@ func (store *Store) GetInfo(height int64, hash []byte) Info {
 	return ei
 }
 
+// IsStored checks if the evidence is already stored
+func (store *Store) IsStored(evidence types.Evidence) bool {
+	key := keyLookup(evidence)
+	ok, _ := store.db.Has(key)
+	return ok
+}
+
 // AddNewEvidence adds the given evidence to the database.
 // It returns false if the evidence is already stored.
 func (store *Store) AddNewEvidence(evidence types.Evidence, priority int64) bool {
 	// check if we already have seen it
-	ei := store.getInfo(evidence)
-	if ei.Evidence != nil {
+	if store.IsStored(evidence) {
 		return false
 	}
 
