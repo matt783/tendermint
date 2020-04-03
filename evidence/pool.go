@@ -99,11 +99,11 @@ func (evpool *Pool) AddEvidence(evidence types.Evidence) (err error) {
 
 	// check if evidence is already stored
 	if evpool.store.IsStored(evidence) {
-		return ErrEvidenceAlreadyStored{evidence}
+		return ErrEvidenceAlreadyStored{}
 	}
 
 	if err := sm.VerifyEvidence(evpool.stateDB, evpool.State(), evidence); err != nil {
-		return ErrInvalidEvidence{evidence, err}
+		return errInvalidEvidence{err}
 	}
 
 	// fetch the validator and return its voting power as its priority

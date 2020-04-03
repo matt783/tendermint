@@ -1,6 +1,7 @@
 package core
 
 import (
+	"github.com/tendermint/tendermint/evidence"
 	ctypes "github.com/tendermint/tendermint/rpc/core/types"
 	rpctypes "github.com/tendermint/tendermint/rpc/lib/types"
 	"github.com/tendermint/tendermint/types"
@@ -10,8 +11,10 @@ import (
 // More: https://docs.tendermint.com/master/rpc/#/Info/broadcast_evidence
 func BroadcastEvidence(ctx *rpctypes.Context, ev types.Evidence) (*ctypes.ResultBroadcastEvidence, error) {
 	err := evidencePool.AddEvidence(ev)
-	if err != nil {
+	switch err.(type) {
+	case nil, evidence.ErrEvidenceAlreadyStored:
+		return &ctypes.ResultBroadcastEvidence{Hash: ev.Hash()}, nil
+	default:
 		return nil, err
 	}
-	return &ctypes.ResultBroadcastEvidence{Hash: ev.Hash()}, nil
 }

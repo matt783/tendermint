@@ -2,23 +2,19 @@ package evidence
 
 import (
 	"fmt"
-
-	"github.com/tendermint/tendermint/types"
 )
 
-type ErrInvalidEvidence struct {
-	Evidence types.Evidence
-	Reason   error
+type errInvalidEvidence struct {
+	Reason error
 }
 
-func (e ErrInvalidEvidence) Error() string {
-	return fmt.Sprintf("evidence is not valid because %v: %v ", e.Reason, e.Evidence)
+func (e errInvalidEvidence) Error() string {
+	return fmt.Sprintf("evidence is not valid: %v ", e.Reason)
 }
 
-type ErrEvidenceAlreadyStored struct {
-	Evidence types.Evidence
-}
+// ErrEvidenceAlreadyStored indicates that the evidence has already been stored in the evidence db
+type ErrEvidenceAlreadyStored struct{}
 
 func (e ErrEvidenceAlreadyStored) Error() string {
-	return fmt.Sprintf("evidence is already stored: %v", e.Evidence)
+	return fmt.Sprint("evidence is already stored")
 }

@@ -83,14 +83,14 @@ func (evR *Reactor) Receive(chID byte, src p2p.Peer, msgBytes []byte) {
 		for _, ev := range msg.Evidence {
 			err := evR.evpool.AddEvidence(ev)
 			switch err.(type) {
-			case ErrInvalidEvidence:
-				evR.Logger.Info("Evidence is not valid", "evidence", msg.Evidence, "err", err)
+			case errInvalidEvidence:
+				evR.Logger.Error("Evidence is not valid", "evidence", msg.Evidence, "err", err)
 				// punish peer
 				evR.Switch.StopPeerForError(src, err)
 			case nil:
 				continue
 			default:
-				evR.Logger.Info("Evidence has not been added", "evidence", msg.Evidence, "err", err)
+				evR.Logger.Error("Evidence has not been added", "evidence", msg.Evidence, "err", err)
 			}
 		}
 	default:
