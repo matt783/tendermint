@@ -31,6 +31,7 @@ Friendly reminder, we have a [bug bounty program](https://hackerone.com/tendermi
 - [all] [\#4608](https://github.com/tendermint/tendermint/pull/4608) Give reactors descriptive names when they're initialized
 - [lite2] [\#4575](https://github.com/tendermint/tendermint/pull/4575) Use bisection for within-range verification (@cmwaters)
 - [tools] \#4615 Allow developers to use Docker to generate proto stubs, via `make proto-gen-docker`.
+- [evidence] [\#4632](https://github.com/tendermint/tendermint/pull/4632) Inbound evidence checked if already existing (@cmwaters)
 
 ### BUG FIXES:
 
